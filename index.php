@@ -1,14 +1,52 @@
 <?php
-use Monolog\Logger;
+require_once 'vendor/autoload.php';
 use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 // create a log channel
-$log = new Logger('debugLog');
-$log->pushHandler(new BrowserConsoleHandler('debug.log', Logger::DEBUG));
+$log = new Logger('infoLog');
 
+$message = $_GET['message'];
 // add records to the log
-$log->warning('Foo');
-$log->error('Bar');
+switch($_GET['type']) {
+    case DEBUG:
+        $log->pushHandler(new StreamHandler('logs/info.log'));
+        $log->pushHandler(new BrowserConsoleHandler());
+        $log->debug($message);
+        break;
+    case INFO:
+        $log->pushHandler(new StreamHandler('logs/info.log'));
+        $log->pushHandler(new BrowserConsoleHandler());
+        $log->info($message);
+        break;
+    case NOTICE:
+        $log->pushHandler(new StreamHandler('logs/info.log'));
+        $log->pushHandler(new BrowserConsoleHandler());
+        $log->notice($message);
+        break;
+    case WARNING:
+        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::WARNING));
+        $log->warning($message);
+        break;
+    case ERROR:
+        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::ERROR));
+        $log->error($message);
+        break;
+    case CRITICAL:
+        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::CRITICAL));
+        $log->critical($message);
+        break;
+    case ALERT:
+        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::ALERT));
+        $log->alert($message);
+        break;
+    case EMERGENCY:
+        $log->pushHandler(new StreamHandler('logs/emergency.log', Logger::EMERGENCY));
+        $log->emergency($message);
+        break;
+}
+
 
 ?>
 <!doctype html>
