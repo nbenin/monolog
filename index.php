@@ -1,17 +1,16 @@
 <?php
-/*
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 
 // create a log channel
-$log = new Logger('name');
-$log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
+$log = new Logger('debugLog');
+$log->pushHandler(new BrowserConsoleHandler('debug.log', Logger::DEBUG));
 
 // add records to the log
 $log->warning('Foo');
 $log->error('Bar');
 
-*/?>
+?>
 <!doctype html>
 <html lang="en">
 <head>
