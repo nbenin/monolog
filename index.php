@@ -5,45 +5,44 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 // create a log channel
-$log = new Logger('infoLog');
+$infoLog = new Logger('infoLog');
+$infoLog->pushHandler(new StreamHandler('logs/info.log'));
+$infoLog->pushHandler(new BrowserConsoleHandler());
 
+$warningLog = new Logger('warningLog');
+$warningLog->pushHandler(new StreamHandler('logs/warning.log'));
+
+$emergencyLog = new Logger('emergencyLog');
+$emergencyLog->pushHandler(new StreamHandler('logs/emergency.log'));
+
+$buttonPressed = $_GET['type'];
 $message = $_GET['message'];
+
 // add records to the log
-switch($_GET['type']) {
-    case DEBUG:
-        $log->pushHandler(new StreamHandler('logs/info.log'));
-        $log->pushHandler(new BrowserConsoleHandler());
-        $log->debug($message);
+switch($buttonPressed) {
+    case 'DEBUG':
+        $infoLog->debug($message);
         break;
-    case INFO:
-        $log->pushHandler(new StreamHandler('logs/info.log'));
-        $log->pushHandler(new BrowserConsoleHandler());
-        $log->info($message);
+    case 'INFO':
+        $infoLog->info($message);
         break;
-    case NOTICE:
-        $log->pushHandler(new StreamHandler('logs/info.log'));
-        $log->pushHandler(new BrowserConsoleHandler());
-        $log->notice($message);
+    case 'NOTICE':
+        $infoLog->notice($message);
         break;
-    case WARNING:
-        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::WARNING));
-        $log->warning($message);
+    case 'WARNING':
+        $warningLog->warning($message);
         break;
-    case ERROR:
-        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::ERROR));
-        $log->error($message);
+    case 'ERROR':
+        $warningLog->error($message);
         break;
-    case CRITICAL:
-        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::CRITICAL));
-        $log->critical($message);
+    case 'CRITICAL':
+        $warningLog->critical($message);
         break;
-    case ALERT:
-        $log->pushHandler(new StreamHandler('logs/warning.log', Logger::ALERT));
-        $log->alert($message);
+    case 'ALERT':
+        $warningLog->alert($message);
         break;
-    case EMERGENCY:
-        $log->pushHandler(new StreamHandler('logs/emergency.log', Logger::EMERGENCY));
-        $log->emergency($message);
+    case 'EMERGENCY':
+        $emergencyLog->emergency($message);
         break;
 }
 
