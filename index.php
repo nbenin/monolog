@@ -1,8 +1,9 @@
 <?php
 require_once 'vendor/autoload.php';
-use Monolog\Handler\BrowserConsoleHandler;
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 
 // create a log channel
 $infoLog = new Logger('infoLog');
@@ -46,6 +47,10 @@ switch($buttonPressed) {
         break;
 }
 
+// better solution
+function logger() {
+    
+}
 
 ?>
 <!doctype html>
